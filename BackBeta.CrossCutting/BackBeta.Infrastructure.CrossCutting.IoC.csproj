@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BackBeta.CrossCutting.Data\BackBeta.CrossCutting.Data.csproj" />
+    <ProjectReference Include="..\BackBeta.CrossCutting.Data\BackBeta.Infrastructure.CrossCutting.csproj" />
     <ProjectReference Include="..\BackBeta.Domain\BackBeta.Domain.csproj" />
-    <ProjectReference Include="..\BackBeta.Service\BackBeta.Service.csproj" />
+    <ProjectReference Include="..\BackBeta.Service\BackBeta.AppService.csproj" />
   </ItemGroup>
 
 </Project>

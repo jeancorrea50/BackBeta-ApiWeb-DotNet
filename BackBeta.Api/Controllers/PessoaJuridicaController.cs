@@ -1,59 +1,58 @@
-﻿using BackBeta.Domain.Dto.User;
-using BackBeta.Domain.Entities;
-using BackBeta.Domain.Interfaces.Services.User;
+﻿using BackBeta.Domain.Entities;
+using BackBeta.Domain.Interface.Services.PessoaJuridica;
 using BackBeta.Domain.Repository;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BackBeta.Api.Controllers
 {
-    //http:localhost/api/User
+    //http:localhost/api/PessoaJuridica
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class PessoaJuridicasController : ControllerBase
     {
-        private readonly IUserService _userService;
-  
-        public UsersController(IUserService userService)
+        private readonly IPessoaJuridicaService _PessoaJuridicaSevice;
+        public PessoaJuridicasController(IPessoaJuridicaService PessoaJuridicaService)
         {
-            _userService = userService;
+            _PessoaJuridicaSevice = PessoaJuridicaService;
         }
-        //localhost:44348/api/users/
+        //localhost:44348/api/PessoaJuridicas/
         [Authorize("Bearer")]
         [HttpGet]
         [Route("obter-todos")]
         public async Task<ActionResult> ObterTodos()
         {
-           
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); // 400 bad request (solicitação invalida) 
             }
 
             try
             {
-                return Ok(await _userService.ObterTodos());
+                return Ok(await _PessoaJuridicaSevice.ObterTodos());
             }
 
             catch (ArgumentException e)
             {
-                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
 
         }
 
-        //localhost:44348/api/user/{1}
+        //localhost:44348/api/PessoaJuridica/{1}
         [Authorize("Bearer")]
         [HttpGet]
-        [Route("obter-por-id", Name = "obterId")]
+        [Route("obter-por-id")]
         public async Task<ActionResult> ObterPorId(int id)
         {
 
@@ -64,7 +63,7 @@ namespace BackBeta.Api.Controllers
 
             try
             {
-                return Ok(await _userService.ObterPorId(id));
+                return Ok(await _PessoaJuridicaSevice.ObterPorId(id));
             }
 
             catch (ArgumentException e)
@@ -77,48 +76,15 @@ namespace BackBeta.Api.Controllers
         [Authorize("Bearer")]
         [HttpPost]
         [Route("criar")]
-        public async Task<ActionResult> Criar([FromBody] CriarUsuarioDto user)
+        public async Task<ActionResult> Criar([FromBody] PessoaJuridicaEntity PessoaJuridica)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                var result = await _userService.Criar(user);
-
-                if(result != null)
-                {
-                     return Created (new Uri(Url.Link ("obterId", new {id = result.Id})), result);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-             // return 500 (caso problema)
-            catch (ArgumentException e)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
-            }
-        }
-
-        [Authorize("Bearer")]
-        [HttpPut]
-        [Route("alterar")]
-        public async Task<ActionResult> Alterar([FromBody] AtualizarUsuarioDto user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var result = await _userService.Alterar(user);
+                var result = await _PessoaJuridicaSevice.Criar(PessoaJuridica);
 
                 if (result != null)
                 {
-                    return Ok(result);
+                    return Created(new Uri(Url.Link("obterId", new { id = result.Id })), result);
                 }
                 else
                 {
@@ -131,6 +97,32 @@ namespace BackBeta.Api.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
+
+        [Authorize("Bearer")]
+        [HttpPut]
+        [Route("alterar")]
+        public async Task<ActionResult> Alterar([FromBody] PessoaJuridicaEntity PessoaJuridica)
+        {
+            try
+            {
+                var result = await _PessoaJuridicaSevice.Alterar(PessoaJuridica);
+
+                if (result != null)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            // return 500 (caso problema)
+            catch (ArgumentException e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
         [Authorize("Bearer")]
         [HttpDelete]
         [Route("excluir")]
@@ -138,7 +130,7 @@ namespace BackBeta.Api.Controllers
         {
             try
             {
-                var result = await _userService.Excluir(id);
+                var result = await _PessoaJuridicaSevice.Excluir(id);
 
                 if (result == true)
                 {
@@ -155,8 +147,6 @@ namespace BackBeta.Api.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
-
-    
     }
 }
 

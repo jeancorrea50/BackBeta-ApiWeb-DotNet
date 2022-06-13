@@ -7,11 +7,11 @@ namespace BackBeta.Domain.Interfaces
 {
     public interface IRepository<T> where T : Base
     {
-        Task<T> InsertAsync(T item);
-        Task<T> UpdateAsync(T item);
-        Task<bool> DeleteAsync(int id);
-        Task<T> SelectAsync(int id);
-        Task<IEnumerable<T>> SelectAsync();
-        Task<bool> ExistAsync(int id);
+        Task<T> InserirAsync(T item);
+        Task<T> AtualizarAsync(T item);
+        Task<bool> ExcluirAsync(int id);
+        Task<T> SelecionarAsync(int id);
+        Task<IEnumerable<T>> SelecionarAsync();
+        Task<bool> ExisteAsync(int id);
     }
 }

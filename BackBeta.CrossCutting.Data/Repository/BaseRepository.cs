@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackBeta.Domain.Entities;
-using BackBeta.Domain;
 using Microsoft.EntityFrameworkCore;
 using BackBeta.Domain.Interfaces;
 using BackBeta.CrossCutting.Data.Context;
@@ -18,7 +17,7 @@ namespace BackBeta.CrossCutting.DataRepository
             _context = context;
             _dataset = _context.Set<T>();
         }
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> ExcluirAsync(int id)
         {
             try
             {
@@ -39,12 +38,12 @@ namespace BackBeta.CrossCutting.DataRepository
             }
         }
 
-        public async Task<bool> ExistAsync(int id)
+        public async Task<bool> ExisteAsync(int id)
         {
             return await _dataset.AnyAsync(p => p.Id == id);
         }
 
-        public async Task<T> InsertAsync(T item)
+        public async Task<T> InserirAsync(T item)
         {
             try
             {
@@ -66,7 +65,7 @@ namespace BackBeta.CrossCutting.DataRepository
             return item;
         }
 
-        public async Task<T> SelectAsync(int id)
+        public async Task<T> SelecionarAsync(int id)
         {
             try
             {
@@ -78,7 +77,7 @@ namespace BackBeta.CrossCutting.DataRepository
             }
         }
 
-        public async Task<IEnumerable<T>> SelectAsync()
+        public async Task<IEnumerable<T>> SelecionarAsync()
         {
             try
             {
@@ -90,7 +89,7 @@ namespace BackBeta.CrossCutting.DataRepository
             }
         }
 
-        public async Task<T> UpdateAsync(T item)
+        public async Task<T> AtualizarAsync(T item)
         {
             try
             {
