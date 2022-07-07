@@ -1,5 +1,4 @@
 ﻿using System;
-using BackBeta.CrossCutting.DepedencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +9,10 @@ using BackBeta.Domain.Security;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using BackBeta.CrossCutting.Data.Mapping;
 using AutoMapper;
 using System.Collections.Generic;
+using BackBeta.Infrastructure.CrossCutting.IoC.DepedencyInjection;
+using BackBeta.AppService.Mappers;
 
 namespace BackBeta.Api
 {
@@ -28,11 +28,23 @@ namespace BackBeta.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Cors
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+            #endregion
+
             #region Injeção de depedencia configuração
-            // config injecao de depedencia 
+
+            ConfigureAppService.ConfigureDepedenciesAppService(services);
             ConfigureService.ConfigureDependeciesService(services);
-            // config repositorio 
             ConfigureRepository.ConfigureDepedenciesRepository(services);
+
             #endregion
 
             #region AutoMapper Configuração

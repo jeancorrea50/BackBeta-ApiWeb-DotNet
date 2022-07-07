@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BackBeta.Domain.Entities
 {
-    public class UserEntity : BaseEntity
+    public class PessoaFisicaEntity : BaseEntity
     {
-        public string Email { get; set; }
-
         public string Nome { get; set; }
-
+        public string Cpf { get; set; }
+        public string Email { get; set; }
+        public string Telefone { get; set; }
     }
 }

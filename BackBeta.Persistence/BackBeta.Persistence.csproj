@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BackBeta.CrossCutting.Data\BackBeta.Infrastructure.CrossCutting.csproj" />
+    <ProjectReference Include="..\BackBeta.Domain\BackBeta.Domain.csproj" />
   </ItemGroup>
 
 </Project>

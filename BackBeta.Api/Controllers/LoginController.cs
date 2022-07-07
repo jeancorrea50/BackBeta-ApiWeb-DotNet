@@ -1,5 +1,5 @@
-﻿using BackBeta.Domain.Dto.User;
-using BackBeta.Domain.Interface.Services.User;
+﻿using BackBeta.AppService.Interface;
+using BackBeta.Domain.Dto.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,16 +18,16 @@ namespace BackBeta.Api.Controllers
         // [FromBody] Corpo da requesição (tudo que vai aparecer na view da api)
         [AllowAnonymous]
         [HttpPost]
-        public async Task<object> Login([FromBody] LoginDto loginDto, [FromServices] ILoginService service)
+        public async Task<object> Login([FromBody] LoginDto loginDto, [FromServices] ILoginAppService service)
         {
-                if(!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState); // 400 bad request (solicitação invalida) 
-                }
-                if (loginDto == null)
-                {
-                    return BadRequest(ModelState); // 400 bad request (solicitação invalida) 
-                }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // 400 bad request (solicitação invalida)    
+            }
+            if (loginDto == null)
+            {
+                return BadRequest(ModelState); // 400 bad request (solicitação invalida) 
+            }
 
             try
             {
@@ -39,13 +39,13 @@ namespace BackBeta.Api.Controllers
                 }
                 else
                 {
-                   return NotFound();
+                    return NotFound();
                 }
             }
 
             catch (ArgumentException e)
             {
-                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
 
         }

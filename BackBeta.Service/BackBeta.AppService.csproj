@@ -9,4 +9,11 @@
     <ProjectReference Include="..\BackBeta.Domain\BackBeta.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\Alteracao\" />
+    <Folder Include="ViewModel\Inclusao\" />
+    <Folder Include="ViewModel\Usuario\" />
+    <Folder Include="ViewModel\Visao\" />
+  </ItemGroup>
+
 </Project>

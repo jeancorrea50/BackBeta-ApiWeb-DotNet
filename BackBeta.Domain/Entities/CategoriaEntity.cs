@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace BackBeta.Domain.Entities
 {
-    public class UserEntity : BaseEntity
+    public class CategoriaEntity
     {
-        public string Email { get; set; }
-
-        public string Nome { get; set; }
-
+        public int Id { get; set; }
+        public string Descricao { get; set; }   
     }
 }

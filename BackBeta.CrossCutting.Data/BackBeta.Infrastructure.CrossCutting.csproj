@@ -19,8 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BackBeta.Domain\BackBeta.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

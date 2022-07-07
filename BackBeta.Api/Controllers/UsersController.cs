@@ -1,15 +1,8 @@
-﻿using BackBeta.Domain.Dto.User;
-using BackBeta.Domain.Entities;
-using BackBeta.Domain.Interfaces.Services.User;
-using BackBeta.Domain.Repository;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+﻿using BackBeta.AppService.Interface;
+using BackBeta.Domain.Dto.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -20,9 +13,9 @@ namespace BackBeta.Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userService;
-  
-        public UsersController(IUserService userService)
+        private readonly IUserAppService _userService;
+
+        public UsersController(IUserAppService userService)
         {
             _userService = userService;
         }
@@ -32,8 +25,8 @@ namespace BackBeta.Api.Controllers
         [Route("obter-todos")]
         public async Task<ActionResult> ObterTodos()
         {
-           
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); // 400 bad request (solicitação invalida) 
             }
@@ -45,7 +38,7 @@ namespace BackBeta.Api.Controllers
 
             catch (ArgumentException e)
             {
-                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
 
         }
@@ -87,16 +80,16 @@ namespace BackBeta.Api.Controllers
             {
                 var result = await _userService.Criar(user);
 
-                if(result != null)
+                if (result != null)
                 {
-                     return Created (new Uri(Url.Link ("obterId", new {id = result.Id})), result);
+                    return Created(new Uri(Url.Link("obterId", new { id = result.Id })), result);
                 }
                 else
                 {
                     return BadRequest();
                 }
             }
-             // return 500 (caso problema)
+            // return 500 (caso problema)
             catch (ArgumentException e)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
@@ -156,7 +149,7 @@ namespace BackBeta.Api.Controllers
             }
         }
 
-    
+
     }
 }
 
